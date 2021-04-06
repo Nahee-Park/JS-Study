@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2.6 alert, prompt, confirm (브라우저 일부)</title>
+</head>
+<body>
+    <script>
+        //confirm("하고싶은 질문");은 팝업으로 질문을 띄워주고 그 선택값을 boolean타입으로 저장한다.
+        let question = confirm("당신은 술을 좋아하십니까?");
+        console.log(question);
+        //prompt("팝업에 띄울 말","빈칸에 예시로 들어갈 값");
+        //주의할 것은 변수에 저장하는 것과는 상관없이 저 자체만으로 우선 실행된다
+        //그리고 모든 문자열은 ""로 감싸줘야 한다!(숫자가 아닌 이상!)
+        if(question){
+            let bottles = prompt("주량을 입력하세요", "예시: 소주 1병");
+            alert(`당신은 저와 소주 ${bottles}를 마실 수 있겠군요!`);
+        }else alert("저런:( 저랑 술을 마시긴 글렀군요");
+    </script>
+</body>
+</html>
