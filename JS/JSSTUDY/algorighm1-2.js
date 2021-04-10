@@ -11,7 +11,6 @@
 //2. 나머지가 0인 수가 나오는 순간 걔는 소수가 아니므로 다시 for문으로 가서 다음 수 점검
 //3. continue문 영향 받지 않고 내려가서 수행되면 소수이므로 answer++
 
-
 function solution(n) {
     var answer = 0;
     next: for(let i=2;i<=n;i++){
@@ -22,6 +21,29 @@ function solution(n) {
         }
         answer++;
     }
+    return answer;
+}
+
+//--->효율성 개쓰레기임 .. 그렇겠지 O(n^2)일태니 ^^..
+
+//에라토스테네스의 체 이용 -> 소수의 배수들을 제거하고 남은 애들이 소수
+//기본적으로 1 대입, 소수가 아닌 것들을 0으로 바꾸기 (소수의 배수들 0으로 바꾸기)
+function solution(n){
+    var answer;
+    let prime = new Array(n);
+    prime.fill(1);
+    prime[0]=0;
+    for(let i=2;i**2<=n;i++){
+        if(prime[i-1]==1){
+            for(let j = i**2;j<=n;j=j+i){// j는 i의 제곱수들을 n까지 점검하며 0으로 챠움 
+                prime[j-1]=0;
+            }
+        }
+    }
+    answer = prime.filter(function(e){
+        return e==1;
+    }).length;
+    
     return answer;
 }
 
