@@ -9,6 +9,7 @@
 
 //1. 2부터 n까지 하나하나 소수인지 점검
 //2. 나머지가 0인 수가 나오는 순간 걔는 소수가 아니므로 다시 for문으로 가서 다음 수 점검
+//3. continue문 영향 받지 않고 내려가서 수행되면 소수이므로 answer++
 
 
 function solution(n) {
@@ -18,9 +19,10 @@ function solution(n) {
             if(i%j==0){
                 continue next;
             }
-            answer++;
         }
+        answer++;
     }
     return answer;
 }
+
 
