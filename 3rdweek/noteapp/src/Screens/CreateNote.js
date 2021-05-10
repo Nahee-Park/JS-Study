@@ -1,15 +1,15 @@
 import React from "react";
-import Container from '../components/Container';
+import Title from '../components/Title';
 
 function CreateNote () {
     return(
-        <Container>
+        <Title>
             <form>
                 {/* searchBar */}
                 <input></input>
             </form>
             
-        </Container>
+        </Title>
     );    
 }
 
