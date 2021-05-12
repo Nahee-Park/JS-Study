@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import Title from '../components/Title';
 import searchIcon from '../images/searchIcon.svg';
 import styled from 'styled-components';
+import Button from '../components/Button'
 
 //대략적인 구조가 우선 create 노트에서 로컬스토리지에 내용값+제목값+저장 시간을 저장할 거임 
 //여가서 받은 인풋값을 로컬스토리지 돎면서 비교해서 같으면 그 노트를 찾는 방식으로 
@@ -34,8 +35,10 @@ function DrawMain () {
                     >
                     </input>
                 </form>
+                {/* height: 381, width:598 안에서 스크롤  */}
                 {/* map 돌려서 로컬스토리지 객체 잠시 배열로 바꾼 후 순회해서 그 갯수만큼 Notelist 불러오기 */}
                 {/* <NoteList/> */}
+                <Button className="btn-create" size="large" color="gray">Create Note</Button>
             </div>
         </DrawMainWrap>
     );    
@@ -87,5 +90,9 @@ form{
         width: 549px;   
         border-radius: 10px;
     }
+}
+.btn-create{
+    margin-left: 527px;
+    margin-top: 441px;
 }
 `;

@@ -91,6 +91,7 @@ justify-content: center;
         width: 591px;
         height: 51px;
         background: #FFFFFF;
+        color: #2d2d2d;
         border-radius: 20px;
     }
 }
@@ -113,6 +114,7 @@ justify-content: center;
         width: 591px;
         height: 51px;
         background: #FFFFFF;
+        color: #2d2d2d;
         border-radius: 20px;
     }
 }
