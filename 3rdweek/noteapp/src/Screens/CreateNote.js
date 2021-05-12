@@ -5,16 +5,22 @@ import Button from '../components/Button';
 
 //로컬스토리지에 입력값 저장하는 곳
 //객체에는 1.제목 2.내용 3.마지막 접근 시간을 저장한다
-function CreateNote () {
-    //로컬스토리지값 가져온 걸로 setNote 할거지만 일단 어떤 요소 들어갈 지 넣어둠 
-    const [note,setNote] = useState({title:'',body:'',create:'',update:'업데이트시간'})
+function CreateNote ({history}) {
     const moment = require('moment');
+    const timestamp = moment().format('YYYY년 MM월DD일 h:m:s');
+    //로컬스토리지값 가져온 걸로 setNote 할거지만 일단 어떤 요소 들어갈 지 넣어둠 
+    const [note,setNote] = useState({title:'',body:'',create:timestamp,update:'업데이트'});
 
     //타이틀 배열변수에 담음
     const titleChangeHandler = (event) => {
         event.preventDefault();
         console.log("title",event.target.value);
         setNote({...note,title:event.target.value});
+    }
+
+    const saveNotes = (note) => {
+        setNote(note);
+        localStorage.setItem("notes",JSON.stringify(note));
     }
 
     //내용 배열변수에 담음
@@ -28,19 +34,25 @@ function CreateNote () {
     const noteSubmit = (event) => {
         console.log(note);
         const timestamp = moment().format('YYYY년 MM월DD일 h:m:s');
-        setNote({...note,update:timestamp});
-        if(note.create===''){
-            setNote({...note,create:note.update});
-        }
+        const newNote = {...note,update:timestamp};
+        saveNotes(newNote);
+        history.push("/");
     }
 
+    const noteRemove = (event) => {
+        history.push("/");
+    }
+
+    const back = (event) => {
+        history.push("/");
+    }
 
 
     return(
         <CreateNoteWrap>
             <div className="container">
                 <Title/>
-                <Button className="btn-back" color="gray" size="small">Back</Button>
+                <Button onClick={back} className="btn-back" color="gray" size="small">Back</Button>
                 <div className="title-form">
                     <input
                         className="title-form--input"
@@ -60,7 +72,7 @@ function CreateNote () {
                     ></textarea>
                 </div>
                 <div className="btn-bottom">
-                    <Button className="btn-remove" color="pink" size="large">Remove Note</Button>
+                    <Button onClick={noteRemove} className="btn-remove" color="pink" size="large">Remove Note</Button>
                     <Button onClick={noteSubmit} className="btn-done" color="gray" size="small">Done</Button>
                 </div>
             </div>

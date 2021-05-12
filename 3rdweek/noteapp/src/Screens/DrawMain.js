@@ -6,7 +6,7 @@ import Button from '../components/Button'
 
 //대략적인 구조가 우선 create 노트에서 로컬스토리지에 내용값+제목값+저장 시간을 저장할 거임 
 //여가서 받은 인풋값을 로컬스토리지 돎면서 비교해서 같으면 그 노트를 찾는 방식으로 
-function DrawMain () {
+function DrawMain ({history}) {
     //나중에 로컬스토리지 값 중에서 인풋값으로 불러올 값임, 
     //이 값은 CreateNote로 보낼 예정 
     const {searchNote,setSearchNote}=useState();
@@ -19,6 +19,10 @@ function DrawMain () {
     //enter치는 순간 그 값을 searchNote에 저장하도록 제어 
     const submitHandler = (event)=>{
         event.preventDefault();
+    }
+
+    const gotoCreate = (event) => {
+        history.push("/createnote");
     }
     return(
         <DrawMainWrap>
@@ -38,7 +42,7 @@ function DrawMain () {
                 {/* height: 381, width:598 안에서 스크롤  */}
                 {/* map 돌려서 로컬스토리지 객체 잠시 배열로 바꾼 후 순회해서 그 갯수만큼 Notelist 불러오기 */}
                 {/* <NoteList/> */}
-                <Button className="btn-create" size="large" color="gray">Create Note</Button>
+                <Button onClick={gotoCreate} className="btn-create" size="large" color="gray">Create Note</Button>
             </div>
         </DrawMainWrap>
     );    
