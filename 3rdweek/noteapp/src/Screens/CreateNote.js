@@ -33,7 +33,7 @@ function CreateNote ({history}) {
     //submit할 때 그 시간 찍어서 update에 저장, create가 비어있는 경우에만 update로 채우기 
     const noteSubmit = (event) => {
         console.log(note);
-        const timestamp = moment().format('YYYY년 MM월DD일 h:m:s');
+        const timestamp = moment().format('YYYY년 MM월DD일 hh:mm:ss');
         const newNote = {...note,update:timestamp};
         saveNotes(newNote);
         history.push("/");
