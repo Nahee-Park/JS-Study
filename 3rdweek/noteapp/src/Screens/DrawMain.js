@@ -42,9 +42,10 @@ function DrawMain ({history}) {
                 </form>
                 {/* height: 381, width:598 안에서 스크롤  */}
                 {/* map 돌려서 로컬스토리지 객체 잠시 배열로 바꾼 후 순회해서 그 갯수만큼 Notelist 불러오기 */}
-                {/* <NoteList/> */}
+                <NoteListContainer>
+                    <NoteList/>
+                </NoteListContainer>
                 <Button onClick={gotoCreate} className="btn-create" size="large" color="gray">Create Note</Button>
-                <NoteList/>
             </div>
         </DrawMainWrap>
     );    
@@ -52,6 +53,12 @@ function DrawMain ({history}) {
 
 export default DrawMain;
 
+const NoteListContainer = styled.div`
+margin-top: 30px;
+margin-left: 56px;
+height: 381px;
+width: 598px;
+`;
 
 const DrawMainWrap = styled.div`
 width: 100vw;
@@ -99,6 +106,6 @@ form{
 }
 .btn-create{
     margin-left: 527px;
-    margin-top: 441px;
+    margin-top: 40px;
 }
 `;

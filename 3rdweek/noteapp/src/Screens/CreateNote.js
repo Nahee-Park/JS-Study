@@ -59,7 +59,8 @@ function CreateNote ({history}) {
                         type="text"
                         // value={notes.title}
                         onChange={titleChangeHandler}
-                        placeholder="Title"                    
+                        placeholder="Title"
+                        maxLength='20'                    
                     ></input>
                 </div>
                 <div className="content-form">
