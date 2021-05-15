@@ -8,19 +8,26 @@ import Button from '../components/Button';
 function CreateNote ({history}) {
     const moment = require('moment');
     const timestamp = moment().format('YYYY년 MM월DD일 h:m:s');
-    //로컬스토리지값 가져온 걸로 setNote 할거지만 일단 어떤 요소 들어갈 지 넣어둠 
+    //객체 하나의 값 
+    console.log(timestamp);
     const [note,setNote] = useState({title:'',body:'',create:timestamp,update:'업데이트'});
 
-    //타이틀 배열변수에 담음
+    //객체들 모은 배열, 얘를 로컬스토리지에 저장할 것임.(맨 처음엔 null일 것이므로, note값이 배열 안에 들어가야한다.)
+    const [notes,setNotes] = useState([JSON.parse(localStorage.getItem("notes") || "[]")]);
+
+
     const titleChangeHandler = (event) => {
         event.preventDefault();
         console.log("title",event.target.value);
         setNote({...note,title:event.target.value});
+        setNotes([{...note,title:event.target.value}]);
     }
 
     const saveNotes = (note) => {
         setNote(note);
-        localStorage.setItem("notes",JSON.stringify(note));
+        setNotes([note]);
+        localStorage.setItem("notes",JSON.stringify(notes));
+        console.log(notes);
     }
 
     //내용 배열변수에 담음
@@ -28,6 +35,7 @@ function CreateNote ({history}) {
         event.preventDefault();
         console.log("content",event.target.value);
         setNote({...note,body:event.target.value});
+        setNotes([{...note,body:event.target.value}]);
     }
 
     //submit할 때 그 시간 찍어서 update에 저장, create가 비어있는 경우에만 update로 채우기 
