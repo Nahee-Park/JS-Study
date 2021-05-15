@@ -9,7 +9,12 @@ function CreateNote ({history}) {
     const moment = require('moment');
     const timestamp = moment().format('YYYY년 MM월DD일 h:m:s');
     //로컬스토리지값 가져온 걸로 setNote 할거지만 일단 어떤 요소 들어갈 지 넣어둠 
-    const [note,setNote] = useState({title:'',body:'',create:timestamp,update:'업데이트'});
+    const [note,setNote] = useState({
+        title:'',
+        body:'',
+        create:timestamp,
+        update:'업데이트'
+    });
 
     //타이틀 배열변수에 담음
     const titleChangeHandler = (event) => {
@@ -18,9 +23,11 @@ function CreateNote ({history}) {
         setNote({...note,title:event.target.value});
     }
 
-    const saveNotes = (note) => {
-        setNote(note);
-        localStorage.setItem("notes",JSON.stringify(note));
+    const saveNotes = (newNote) => {
+        setNote(newNote);
+        const notes= JSON.parse(localStorage.getItem("notes") || "[]");
+        const newNotes=[...notes,newNote];
+        localStorage.setItem("notes",JSON.stringify(newNotes));
     }
 
     //내용 배열변수에 담음

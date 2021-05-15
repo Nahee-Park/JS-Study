@@ -11,6 +11,9 @@ function DrawMain ({history}) {
     //나중에 로컬스토리지 값 중에서 인풋값으로 불러올 값임, 
     //이 값은 CreateNote로 보낼 예정 
     const {searchNote,setSearchNote}=useState();
+    const [notes, setNotes] = useState(
+        JSON.parse(localStorage.getItem("notes") || "[]")
+    );
 
     const changeHandler = (event) => {
         console.log("인풋아 나와랑",event.target.value);
@@ -43,7 +46,8 @@ function DrawMain ({history}) {
                 {/* height: 381, width:598 안에서 스크롤  */}
                 {/* map 돌려서 로컬스토리지 객체 잠시 배열로 바꾼 후 순회해서 그 갯수만큼 Notelist 불러오기 */}
                 <NoteListContainer>
-                    <NoteList/>
+                    {notes && 
+                        notes.map((note,index)=><NoteList note={note} key={index} />)}
                 </NoteListContainer>
                 <Button onClick={gotoCreate} className="btn-create" size="large" color="gray">Create Note</Button>
             </div>
@@ -54,10 +58,11 @@ function DrawMain ({history}) {
 export default DrawMain;
 
 const NoteListContainer = styled.div`
-margin-top: 30px;
+/* margin-top: 30px; */
 margin-left: 56px;
 height: 381px;
-width: 598px;
+width: 625px;
+overflow-y: scroll;
 `;
 
 const DrawMainWrap = styled.div`
