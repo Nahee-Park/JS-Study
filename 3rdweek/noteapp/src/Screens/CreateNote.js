@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Title from "../components/Title";
 import styled from "styled-components";
 import Button from "../components/Button";
@@ -17,6 +17,21 @@ function CreateNote({ history, match }) {
     update: "업데이트",
   });
 
+  //renoteId가 있으면 수정 버전 , 없으면 생성 버전
+  const renoteId = match.params && match.params.id;
+  //우선 로컬스토리지에서 객체들의 배열을 불러오고, 각 객체를 localNoteObj에 저장
+  const localNote = JSON.parse(localStorage.getItem("notes") || "[]");
+  const localNoteObj = localNote.filter(
+    (element) => element.create === renoteId
+  );
+
+  //우선 렌더 한 번 더 될 때 renoteId값이 있으면 localNoteObj에서 그 객체 가저와서 기본 note에 set
+  useEffect(() => {
+    console.log(localNote, renoteId);
+    if (renoteId) {
+      setNote(localNoteObj[0]);
+    }
+  }, []);
   //타이틀 배열변수에 담음
   const titleChangeHandler = (event) => {
     event.preventDefault();
@@ -26,8 +41,16 @@ function CreateNote({ history, match }) {
 
   const saveNotes = (newNote) => {
     setNote(newNote);
-    const notes = JSON.parse(localStorage.getItem("notes") || "[]");
-    const newNotes = [...notes, newNote];
+    let newNotes;
+    //완전 새로운 객체로 저장, 만약 match.params.id가 있으면
+    if (renoteId) {
+      newNotes = localNote.map((element) =>
+        element.create === note.create ? note : element
+      );
+    } else {
+      newNotes = [...localNote, newNote];
+    }
+    console.log("새로운 노트", newNotes);
     localStorage.setItem("notes", JSON.stringify(newNotes));
   };
 
@@ -56,8 +79,21 @@ function CreateNote({ history, match }) {
   };
   //만약 match.params 값이 null이 아니면 1.로컬스토리지에서 그 match.params값과 같은 객체를 찾아서 renote 변수에 저장 2. 그 객체를
 
-  // const renote = match.params ? match.params : null;
-  // const
+  // const renoteId = match.params && match.params.id;
+  // const localNote = JSON.parse(localStorage.getItem("notes") || "[]");
+  // console.log(localNote, renoteId);
+
+  //element에 담기는 값이 배열 내부 하나의 객체임/
+  //element.create가 renoteId 값이랑 같을 때 그 값을 localNoteObj에 저장
+  //그 localNoteobj값이 있을 때, 그 객체의 title, body값을 기본 value로 input과 textarea에 설정
+  // const localNoteObj = localNote.filter(
+  //   (element) => element.create === renoteId
+  // );
+  // console.log(localNoteObj[0]);
+  // const [title, setTitle] = useState(localNoteObj[0].title || null);
+  // console.log(title);
+
+  // const renoteObj = renoteId && localNote.map((eachnote)=>localNote.create==renoteId && return localNote);
 
   return (
     <CreateNoteWrap>
