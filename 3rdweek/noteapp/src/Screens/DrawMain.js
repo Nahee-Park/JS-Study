@@ -5,8 +5,6 @@ import styled from "styled-components";
 import Button from "../components/Button";
 import NoteList from "../components/NoteList";
 
-//대략적인 구조가 우선 create 노트에서 로컬스토리지에 내용값+제목값+저장 시간을 저장할 거임
-//여가서 받은 인풋값을 로컬스토리지 돎면서 비교해서 같으면 그 노트를 찾는 방식으로
 function DrawMain({ history }) {
   //나중에 로컬스토리지 값 중에서 인풋값으로 불러올 값임,
   //이 값은 CreateNote로 보낼 예정
@@ -14,12 +12,11 @@ function DrawMain({ history }) {
   const [notes, setNotes] = useState(
     JSON.parse(localStorage.getItem("notes") || "[]")
   );
+  const localNotes = JSON.parse(localStorage.getItem("notes"));
 
   const changeHandler = (event) => {
-    console.log("인풋아 나와랑", event.target.value);
-    //이건 그 서치한 input 내부에 둔 value값이 searchNote이고 그 값을 변경시켜줘! 근데 useState라서 한템포 느리게 반영돼 -> 그래서 결국 searchNote변수를 안쓰고, event.target.value를 직접 가지고 필터링했엉
-    setSearchNote(event.target.value); //그냥 혹시 모를 input저장용인데 쓸모없는듯...
-    const filterNotes = notes.filter((element) =>
+    setSearchNote(event.target.value); //input값 조정하기 위해서 필요!
+    const filterNotes = localNotes.filter((element) =>
       element.title.match(event.target.value)
     );
     if (event.target.value) {
@@ -28,12 +25,8 @@ function DrawMain({ history }) {
       //인풋값이 없으면
       setNotes(JSON.parse(localStorage.getItem("notes")));
     }
-
-    console.log(filterNotes);
   };
-  //지금 기본적으로 뿌려지는 노트값이 모든 로컬스토리지를 다 돌면서 뿌려지는 것 -> 만약 searchNote에 값이 들어오면 로컬스토리지에 setNotes를
 
-  //enter치는 순간 그 값을 filterNotes값을 뿌리기
   const submitHandler = (event) => {
     event.preventDefault();
   };
