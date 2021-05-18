@@ -3,11 +3,10 @@ import Title from "../components/Title";
 import styled from "styled-components";
 import Button from "../components/Button";
 
-//로컬스토리지에 입력값 저장하는 곳
-//객체에는 1.제목 2.내용 3.마지막 접근 시간을 저장한다
 function CreateNote({ history, match }) {
-  console.log("난 매치", match.params);
+  //moment JS 사용하기 위한 준비
   const moment = require("moment");
+  //createtime 저장 위해서 이 페이지에 들어오자마자의 시간을 timestamp에 저장
   const timestamp = moment().format("YYYY-MM-DD HH:mm:ss");
   //로컬스토리지 배열 내부의 객체 하나값
   const [note, setNote] = useState({
@@ -33,13 +32,20 @@ function CreateNote({ history, match }) {
       setNote(localNoteObj[0]);
     }
   }, []);
+
   //타이틀 배열변수에 담음
   const titleChangeHandler = (event) => {
     event.preventDefault();
-    console.log("title", event.target.value);
     setNote({ ...note, title: event.target.value });
   };
 
+  //내용 배열변수에 담음
+  const contentChangeHandler = (event) => {
+    event.preventDefault();
+    setNote({ ...note, body: event.target.value });
+  };
+
+  //완성된 노트객체 하나를 로컬스토리지 배열에 저장
   const saveNotes = (newNote) => {
     setNote(newNote);
     let newNotes;
@@ -55,32 +61,29 @@ function CreateNote({ history, match }) {
     localStorage.setItem("notes", JSON.stringify(newNotes));
   };
 
-  //내용 배열변수에 담음
-  const contentChangeHandler = (event) => {
-    event.preventDefault();
-    console.log("content", event.target.value);
-    setNote({ ...note, body: event.target.value });
-  };
-
-  //submit할 때 그 시간 찍어서 update에 저장
+  //submit할 때 실행할 함수
   const noteSubmit = () => {
+    //submit하는 시간을 저장
     const updateTimeStamp = moment().format("YYYY- MM-DD HH:mm:ss");
+    //submit하는 시간과 현재 시간 사이의 간극을 저장
     const diffTime = moment(updateTimeStamp, "YYYY- MM-DD HH:mm:ss").fromNow();
+    //note 하나 객체에 위의 값들 저장
     const newNote = { ...note, update: diffTime, edit: updateTimeStamp };
-    console.log(localNote);
+
+    //done을 클릭할 때 로컬스토리지 속 다른 노트객체들도 현재 시간과 마지막 업데이트 시간 사이의 간극을 새롭게 업데이트함.
     localNote.map(
       (e) => (e.update = moment(e.edit, "YYYY- MM-DD HH:mm:ss").fromNow())
     );
-    console.log(updateTimeStamp);
     saveNotes(newNote);
     history.push("/");
   };
 
+  //back 버튼 누르면 메인으로 돌아감
   const back = () => {
     history.push("/");
   };
 
-  //1. 해당 노트 객체의 create가 아닌 애들만 새로 저장 2. 그 새로운 배열을 localStorage에 저장
+  //노트 삭제 함수, 현재 수정 중인 note 객체의 create는 note.create이므로, 이것과 다른 값들만 저장해서 새롭게 로컬스토리지에 세팅한다
   const noteRemove = (localNote) => {
     const notNowNote = localNote.filter(
       (element) => element.create !== note.create

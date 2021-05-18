@@ -1,21 +1,22 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import "@fontsource/noticia-text";
+//history 사용하기 위해서 import
 import { useHistory } from "react-router-dom";
 
 //로컬스토리지에서 값을 받아와서 아이디를 추가한 채로 객체에 넣는다
 //그 객채를 잠시 배열로 바꿔 순회하며 , 객체.title만 뽑아낸다
 
 function NoteList({ note }) {
+  //hostory 이용
   const history = useHistory();
-  //우선 로컬스토리지값 다시 풀어서 배열로 저장
 
-  //출력은 notes 배열 순회하먄서 하나하나 근데 여기서 순회 안하고 이따 메인에서 할거니까 여기서는 하나 리스트의 뷰를 잘 짜기
+  //출력은 DrawMain에서 NoteList 순회하먄서 할 것이므로 여기서는 하나하나의 뷰를 잘 짜기
   const gotoPage = () => {
-    //param값을 아이디로 지정해서
-    console.log(note.create);
+    //note.create의 param값을 아이디로 지정
     history.push(`/createnote/${note.create}`);
   };
+
   return (
     <NoteListWrap>
       <div onClick={gotoPage} className="list-container">

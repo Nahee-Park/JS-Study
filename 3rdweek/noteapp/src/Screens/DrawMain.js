@@ -6,31 +6,32 @@ import Button from "../components/Button";
 import NoteList from "../components/NoteList";
 
 function DrawMain({ history }) {
-  //나중에 로컬스토리지 값 중에서 인풋값으로 불러올 값임,
-  //이 값은 CreateNote로 보낼 예정
+  //search 인풋 받을 state 변수
   const [searchNote, setSearchNote] = useState();
+  //기본적으로 뷰에 보일 note 구성할 state 변수
   const [notes, setNotes] = useState(
     JSON.parse(localStorage.getItem("notes") || "[]")
   );
+  //뷰에 보일 note를 구성하기 위해 근본적인 원천이 되어줄 로컬스토리지 값들
   const localNotes = JSON.parse(localStorage.getItem("notes"));
 
+  //search Input태그의 onChange값 제어
   const changeHandler = (event) => {
     setSearchNote(event.target.value); //input값 조정하기 위해서 필요!
+    //filter을 통해 로컬스토리지를 돌면서 로컬스토리지배열 객체 내부의 title값에 event.target.value값이 들어가는 경우 그 객체를 저장
     const filterNotes = localNotes.filter((element) =>
       element.title.match(event.target.value)
     );
+
+    //인풋값이 있으면 filterNotes를 보여줌
     if (event.target.value) {
       setNotes(filterNotes);
     } else {
-      //인풋값이 없으면
+      //인풋값이 없으면 그냥 로컬스토리지 모든 노트객체 다 보여줌
       setNotes(JSON.parse(localStorage.getItem("notes")));
     }
   };
-
-  const submitHandler = (event) => {
-    event.preventDefault();
-  };
-
+  //Create Note 버튼 클릭하면 createnote 페이지로 이동
   const gotoCreate = () => {
     history.push("/createnote");
   };
@@ -38,7 +39,7 @@ function DrawMain({ history }) {
     <DrawMainWrap>
       <div className="container">
         <Title className="title" />
-        <form onSubmit={submitHandler}>
+        <form>
           <img src={searchIcon} className="searchIcon" />
           <input
             className="searchInput"
@@ -48,8 +49,6 @@ function DrawMain({ history }) {
             placeholder="search"
           ></input>
         </form>
-        {/* height: 381, width:598 안에서 스크롤  */}
-        {/* map 돌려서 로컬스토리지 객체 잠시 배열로 바꾼 후 순회해서 그 갯수만큼 Notelist 불러오기 */}
         <NoteListContainer>
           {notes &&
             notes.map((note, index) => <NoteList note={note} key={index} />)}
