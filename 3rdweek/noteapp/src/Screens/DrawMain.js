@@ -10,7 +10,7 @@ import NoteList from "../components/NoteList";
 function DrawMain({ history }) {
   //나중에 로컬스토리지 값 중에서 인풋값으로 불러올 값임,
   //이 값은 CreateNote로 보낼 예정
-  const { searchNote, setSearchNote } = useState();
+  const [searchNote, setSearchNote] = useState();
   const [notes, setNotes] = useState(
     JSON.parse(localStorage.getItem("notes") || "[]")
   );
@@ -18,6 +18,10 @@ function DrawMain({ history }) {
   const changeHandler = (event) => {
     console.log("인풋아 나와랑", event.target.value);
     setSearchNote(event.target.value);
+    console.log(notes);
+    // const searchNotes = notes.filter((element)=>{
+    //   element.
+    // })
   };
 
   //enter치는 순간 그 값을 searchNote에 저장하도록 제어

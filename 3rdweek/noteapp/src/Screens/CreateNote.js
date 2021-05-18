@@ -8,13 +8,14 @@ import Button from "../components/Button";
 function CreateNote({ history, match }) {
   console.log("난 매치", match.params);
   const moment = require("moment");
-  const timestamp = moment().format("YYYY년 MM월DD일 h:m:s");
+  const timestamp = moment().format("YYYY-MM-DD HH:mm:ss");
   //로컬스토리지 배열 내부의 객체 하나값
   const [note, setNote] = useState({
     title: "",
     body: "",
     create: timestamp,
     update: "업데이트",
+    edit: "",
   });
 
   //renoteId가 있으면 수정 버전 , 없으면 생성 버전
@@ -51,7 +52,6 @@ function CreateNote({ history, match }) {
     } else {
       newNotes = [...localNote, newNote];
     }
-    console.log("새로운 노트", newNotes);
     localStorage.setItem("notes", JSON.stringify(newNotes));
   };
 
@@ -64,9 +64,14 @@ function CreateNote({ history, match }) {
 
   //submit할 때 그 시간 찍어서 update에 저장
   const noteSubmit = () => {
-    const timestamp = moment().format("YYYY년 MM월DD일 hh:mm:ss");
-    const newNote = { ...note, update: timestamp };
-    console.log(timestamp);
+    const updateTimeStamp = moment().format("YYYY- MM-DD HH:mm:ss");
+    const diffTime = moment(updateTimeStamp, "YYYY- MM-DD HH:mm:ss").fromNow();
+    const newNote = { ...note, update: diffTime, edit: updateTimeStamp };
+    console.log(localNote);
+    localNote.map(
+      (e) => (e.update = moment(e.edit, "YYYY- MM-DD HH:mm:ss").fromNow())
+    );
+    console.log(updateTimeStamp);
     saveNotes(newNote);
     history.push("/");
   };
@@ -77,7 +82,6 @@ function CreateNote({ history, match }) {
 
   //1. 해당 노트 객체의 create가 아닌 애들만 새로 저장 2. 그 새로운 배열을 localStorage에 저장
   const noteRemove = (localNote) => {
-    // console.log(note.create);
     const notNowNote = localNote.filter(
       (element) => element.create !== note.create
     );
