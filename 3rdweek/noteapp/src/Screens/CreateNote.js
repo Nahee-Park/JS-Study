@@ -63,37 +63,25 @@ function CreateNote({ history, match }) {
 
   //submit할 때 그 시간 찍어서 update에 저장
   const noteSubmit = () => {
-    console.log(note);
     const timestamp = moment().format("YYYY년 MM월DD일 hh:mm:ss");
     const newNote = { ...note, update: timestamp };
     saveNotes(newNote);
     history.push("/");
   };
 
-  const noteRemove = () => {
-    history.push("/");
-  };
-
   const back = () => {
     history.push("/");
   };
-  //만약 match.params 값이 null이 아니면 1.로컬스토리지에서 그 match.params값과 같은 객체를 찾아서 renote 변수에 저장 2. 그 객체를
 
-  // const renoteId = match.params && match.params.id;
-  // const localNote = JSON.parse(localStorage.getItem("notes") || "[]");
-  // console.log(localNote, renoteId);
-
-  //element에 담기는 값이 배열 내부 하나의 객체임/
-  //element.create가 renoteId 값이랑 같을 때 그 값을 localNoteObj에 저장
-  //그 localNoteobj값이 있을 때, 그 객체의 title, body값을 기본 value로 input과 textarea에 설정
-  // const localNoteObj = localNote.filter(
-  //   (element) => element.create === renoteId
-  // );
-  // console.log(localNoteObj[0]);
-  // const [title, setTitle] = useState(localNoteObj[0].title || null);
-  // console.log(title);
-
-  // const renoteObj = renoteId && localNote.map((eachnote)=>localNote.create==renoteId && return localNote);
+  //1. 해당 노트 객체의 create가 아닌 애들만 새로 저장 2. 그 새로운 배열을 localStorage에 저장
+  const noteRemove = (localNote) => {
+    // console.log(note.create);
+    const notNowNote = localNote.filter(
+      (element) => element.create !== note.create
+    );
+    localStorage.setItem("notes", JSON.stringify(notNowNote));
+    history.push("/");
+  };
 
   return (
     <CreateNoteWrap>
@@ -123,7 +111,7 @@ function CreateNote({ history, match }) {
         </div>
         <div className="btn-bottom">
           <Button
-            onClick={noteRemove}
+            onClick={() => noteRemove(localNote)}
             className="btn-remove"
             color="pink"
             size="large"
