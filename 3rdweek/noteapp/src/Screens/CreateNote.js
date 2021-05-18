@@ -44,8 +44,9 @@ function CreateNote({ history, match }) {
     let newNotes;
     //완전 새로운 객체로 저장, 만약 match.params.id가 있으면
     if (renoteId) {
+      //로컬스토리지 돌면서 create가 현재의 create와 같으면 현재의 노트 반환(새로운 노트 생성이 아닌, 기존의 값에 덮어 씌우기 위해서)
       newNotes = localNote.map((element) =>
-        element.create === note.create ? note : element
+        element.create === note.create ? newNote : element
       );
     } else {
       newNotes = [...localNote, newNote];
@@ -65,6 +66,7 @@ function CreateNote({ history, match }) {
   const noteSubmit = () => {
     const timestamp = moment().format("YYYY년 MM월DD일 hh:mm:ss");
     const newNote = { ...note, update: timestamp };
+    console.log(timestamp);
     saveNotes(newNote);
     history.push("/");
   };
