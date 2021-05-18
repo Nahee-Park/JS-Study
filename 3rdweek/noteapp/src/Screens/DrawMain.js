@@ -17,13 +17,15 @@ function DrawMain({ history }) {
 
   const changeHandler = (event) => {
     console.log("인풋아 나와랑", event.target.value);
-    setSearchNote(event.target.value);
+    //이건 그 서치한 input 내부에 둔 value값이 searchNote이고 그 값을 변경시켜줘! 근데 useState라서 한템포 느리게 반영돼 -> 그래서 결국 searchNote변수를 안쓰고, event.target.value를 직접 가지고 필터링했엉
+    setSearchNote(event.target.value); //그냥 혹시 모를 input저장용인데 쓸모없는듯...
     const filterNotes = notes.filter((element) =>
       element.title.match(event.target.value)
     );
     if (event.target.value) {
       setNotes(filterNotes);
     } else {
+      //인풋값이 없으면
       setNotes(JSON.parse(localStorage.getItem("notes")));
     }
 
@@ -75,10 +77,10 @@ function DrawMain({ history }) {
 export default DrawMain;
 
 const NoteListContainer = styled.div`
-  /* margin-top: 30px; */
+  margin-top: 30px;
   margin-left: 56px;
   height: 381px;
-  width: 625px;
+  width: 598px;
   overflow-y: scroll;
 `;
 

@@ -29,9 +29,9 @@ function NoteList({ note }) {
 export default NoteList;
 
 const NoteListWrap = styled.div`
-  margin-top: 24px;
+  margin-bottom: 24px;
   .list-container {
-    width: 598px;
+    width: 583px;
     height: 111px;
     background: #ffffff;
     border-radius: 20px;
