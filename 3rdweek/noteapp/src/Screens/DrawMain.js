@@ -18,13 +18,20 @@ function DrawMain({ history }) {
   const changeHandler = (event) => {
     console.log("인풋아 나와랑", event.target.value);
     setSearchNote(event.target.value);
-    console.log(notes);
-    // const searchNotes = notes.filter((element)=>{
-    //   element.
-    // })
-  };
+    const filterNotes = notes.filter((element) =>
+      element.title.match(event.target.value)
+    );
+    if (event.target.value) {
+      setNotes(filterNotes);
+    } else {
+      setNotes(JSON.parse(localStorage.getItem("notes")));
+    }
 
-  //enter치는 순간 그 값을 searchNote에 저장하도록 제어
+    console.log(filterNotes);
+  };
+  //지금 기본적으로 뿌려지는 노트값이 모든 로컬스토리지를 다 돌면서 뿌려지는 것 -> 만약 searchNote에 값이 들어오면 로컬스토리지에 setNotes를
+
+  //enter치는 순간 그 값을 filterNotes값을 뿌리기
   const submitHandler = (event) => {
     event.preventDefault();
   };
